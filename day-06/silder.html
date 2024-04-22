@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+    <title>Slideshow</title>
+</head>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+    .slideshow-container {
+        position: relative;
+        max-width: 800px;
+        margin: auto;
+    }
+    .slideshow-container img {
+        width: 100%;
+        height: auto;
+    }
+    .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 10px;
+    }
+</style>
+</head>
+<body>
+
+<div class="slideshow-container">
+    <img class="slide" src="https://via.placeholder.com/800x400?text=Image1" alt="Slide 1">
+    <img class="slide" src="https://via.placeholder.com/800x400?text=Image2" alt="Slide 2">
+    <!-- Add more images here -->
+</div>
+<div>
+    <button class="btn" onclick="toggleSlideshow()">Start/Stop Slideshow</button>
+    <button class="btn" onclick="prevSlide()">Previous</button>
+    <button class="btn" onclick="nextSlide()">Next</button>
+</div>
+
+<script>
+    let slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+    let slideshowInterval;
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            if (i === index) {
+                slide.style.display = 'block';
+            } else {
+                slide.style.display = 'none';
+            }
+        });
+        currentSlide = index;
+    }
+
+    function nextSlide() {
+        clearInterval(slideshowInterval);
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+        clearInterval(slideshowInterval);
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    function toggleSlideshow() {
+        if (slideshowInterval) {
+            clearInterval(slideshowInterval);
+            slideshowInterval = null;
+        } else {
+            slideshowInterval = setInterval(nextSlide, 2000); 
+        }
+    }
+
+    toggleSlideshow();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+    <title>Countdown Timer</title>
+</head>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+    .container {
+        margin-top: 50px;
+    }
+    .input {
+        margin-bottom: 10px;
+    }
+    .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 0 10px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Countdown Timer</h2>
+    <div class="input">
+        <label for="hours">Hours:</label>
+        <input type="number" id="hours" min="0" value="0">
+    </div>
+    <div class="input">
+        <label for="minutes">Minutes:</label>
+        <input type="number" id="minutes" min="0" value="0">
+    </div>
+    <div class="input">
+        <label for="seconds">Seconds:</label>
+        <input type="number" id="seconds" min="0" value="0">
+    </div>
+    <div>
+        <button class="btn" onclick="start()">Start</button>
+        <button class="btn" onclick="pause()">Pause</button>
+        <button class="btn" onclick="reset()">Reset</button>
+    </div>
+</div>
+
+<script>
+    let hoursInput = document.getElementById('hours');
+    let minutesInput = document.getElementById('minutes');
+    let secondsInput = document.getElementById('seconds');
+    let timer;
+    let totalSeconds;
+    let running = false;
+
+    function start() {
+        if (!running) {
+            totalSeconds = parseInt(hoursInput.value) * 3600 + parseInt(minutesInput.value) * 60 + parseInt(secondsInput.value);
+            if (totalSeconds <= 0) {
+                alert("Please enter a valid time.");
+                return;
+            }
+            running = true;
+            timer = setInterval(updateTime, 1000);
+        }
+    }
+
+    function pause() {
+        running = false;
+        clearInterval(timer);
+    }
+
+    function reset() {
+        running = false;
+        clearInterval(timer);
+        hoursInput.value = 0;
+        minutesInput.value = 0;
+        secondsInput.value = 0;
+    }
+
+    function updateTime() {
+        totalSeconds--;
+        if (totalSeconds <= 0) {
+            clearInterval(timer);
+            alert("Time's up!");
+            running = false;
+        }
+        updateInputs();
+    }
+
+    function updateInputs() {
+        let hours = Math.floor(totalSeconds / 3600);
+        let minutes = Math.floor((totalSeconds % 3600) / 60);
+        let seconds = totalSeconds % 60;
+        hoursInput.value = padNumber(hours);
+        minutesInput.value = padNumber(minutes);
+        secondsInput.value = padNumber(seconds);
+    }
+
+    function padNumber(number) {
+        if (number < 10) {
+            return '0' + number;
+        }
+        return number;
+    }
+</script>
+
+</body>
+</html>

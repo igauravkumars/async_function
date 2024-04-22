@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+    .container {
+        margin-top: 50px;
+    }
+    .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 0 10px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Stopwatch</h2>
+    <h1 id="display">00:00:00</h1>
+    <div>
+        <button class="btn" onclick="start()">Start</button>
+        <button class="btn" onclick="pause()">Pause</button>
+        <button class="btn" onclick="reset()">Reset</button>
+    </div>
+</div>
+
+<script>
+    let timer;
+    let minutes = 0;
+    let seconds = 0;
+    let milliseconds = 0;
+    let running = false;
+
+    function start() {
+        if (!running) {
+            running = true;
+            timer = setInterval(updateTime, 10);
+        }
+    }
+
+    function pause() {
+        running = false;
+        clearInterval(timer);
+    }
+
+    function reset() {
+        running = false;
+        clearInterval(timer);
+        minutes = 0;
+        seconds = 0;
+        milliseconds = 0;
+        updateTime();
+    }
+
+    function updateTime() {
+        milliseconds++;
+        if (milliseconds >= 100) {
+            milliseconds = 0;
+            seconds++;
+        }
+        if (seconds >= 60) {
+            seconds = 0;
+            minutes++;
+        }
+        const display = document.getElementById('display');
+        display.textContent = padNumber(minutes) + ':' + padNumber(seconds) + ':' + padNumber(milliseconds);
+    }
+
+    function padNumber(number) {
+        if (number < 10) {
+            return '0' + number;
+        }
+        return number;
+    }
+</script>
+
+</body>
+</html>
